@@ -1,0 +1,246 @@
+#include <stdio.h>
+#include <conio.h>
+#include <malloc.h>
+
+
+typedef struct node
+{
+
+    struct node *prev;
+    int data;
+    struct node *next;
+}cdl;
+
+
+cdl *start=NULL;
+cdl*newnode;
+cdl*loc;
+int num;
+char ch='y';
+
+
+cdl *create(cdl*);
+void display(cdl*);
+cdl *insert_beginning(cdl*);
+void insert_after(cdl*);
+void insert_end(cdl*);
+void delete_beginning(cdl*);
+void delete_node(cdl*);
+void delete_end(cdl*);
+
+
+int main()
+{
+    int ch;
+    do
+    {
+        system("cls");
+        printf("\n******MAIN MENU*****\n");
+        printf("\n1.\tCreate node\n2.\tDisplay circular list\n3.\tAdd a node at the beginning\n4.\tAdd a node after a node\n");
+        printf("5.\tAdd a node at the end\n6.\tDelete a node at the beginning\n7.\tDelete a node\n");
+        printf("8.\tDelete a node at the end\n9.\tExit\n");
+        printf("Enter your choice: ");
+        scanf("%d",&ch);
+
+        switch(ch)
+        {
+            case 1:
+                start=create(start);
+                break;
+            case 2:
+                display(start);
+                break;
+            case 3:
+                start=insert_beginning(start);
+                break;
+            case 4:
+                insert_after(start);
+                break;
+            case 5:
+                insert_end(start);
+                break;
+            case 6:
+                delete_beginning(start);
+                break;
+            case 7:
+                delete_node(start);
+                break;
+            case 8:
+                delete_end(start);
+                break;
+            case 9:
+                exit(0);
+            default:
+                printf("Wrong input");
+                break;
+            }
+    }while(ch!=9);
+}
+
+
+cdl *create(cdl *ptr)
+{
+    printf("\nCreating Circular Doubly List\n");
+
+    while(ch=='y')
+    {
+        newnode=(cdl*)malloc(sizeof(cdl));
+        printf("Enter the data: ");
+        scanf("%d",&num);
+        if(start==NULL)
+        {
+            start=newnode;
+            newnode->prev=start;
+            newnode->next=start;
+            newnode->data=num;
+        }
+        else
+        {
+            ptr=start;
+            while(ptr->next!=start)
+            {
+                ptr=ptr->next;
+            }
+            newnode->next=start;
+            newnode->prev=ptr;
+            ptr->next=newnode;
+            newnode->data=num;
+            start->prev=newnode;
+        }
+        printf("Do you want to continue?(y/n): ");
+        scanf(" %c",&ch);
+    }
+    return start;
+}
+
+
+void display(cdl *ptr)
+{
+    printf("\nDisplaying Circular Doubly Linked List\n");
+    while(ptr->next!=start)
+    {
+        printf("\t%d ->",ptr->data);
+        ptr=ptr->next;
+    }
+    do
+    {
+        printf("\t%d ->",ptr->data);
+        ptr=ptr->prev;
+    }while(ptr!=start);
+    printf("\t%d ->",ptr->data);
+    getch();
+}
+
+
+cdl* insert_beginning(cdl* ptr)
+{
+    printf("\nAdding new node at the beginning\n");
+    newnode=(cdl*)malloc(sizeof(cdl));
+    printf("Enter the data: ");
+    scanf("%d",&newnode->data);
+    while(ptr->next!=start)
+    {
+        ptr=ptr->next;
+    }
+    newnode->prev=ptr;
+    newnode->next=start;
+    ptr->next=newnode;
+    start->prev=newnode;
+    start=newnode;
+    return start;
+}
+
+
+void insert_after(cdl* ptr)
+{
+    int pos;
+    printf("\nAdding new node after a node\n");
+    newnode=(cdl*)malloc(sizeof(cdl));
+    printf("After which node do you wish to add:  ");
+    scanf("%d",&pos);
+    printf("Enter the data: ");
+    scanf("%d",&newnode->data);
+    while(ptr->next!=start)
+    {
+        ptr=ptr->next;
+        if(ptr->data==pos)
+        {
+            newnode->prev=ptr;
+            newnode->next=ptr->next;
+            ptr->next=newnode;
+            ptr->next->prev=newnode;
+        }
+    }
+}
+
+
+void insert_end(cdl* ptr)
+{
+    cdl*newnode;
+    printf("\nAdding new node at the end\n");
+    newnode=(cdl*)malloc(sizeof(cdl));
+    printf("Enter the data: ");
+    scanf("%d",&newnode->data);
+    while(ptr->next!=start)
+    {
+        ptr=ptr->next;
+    }
+    newnode->prev=ptr;
+    newnode->next=start;
+    ptr->next=newnode;
+    start->prev=newnode;
+}
+
+
+void delete_beginning(cdl* ptr)
+{
+    cdl* loc;
+    printf("\nDelete node at the beginning\n");
+    while(ptr->next!=start)
+    {
+        ptr=ptr->next;
+    }
+    ptr->next=start->next;
+    start->next->prev=ptr;
+    loc=start;
+    free(loc);
+    start=ptr->next;
+    getch();
+}
+
+
+void delete_node(cdl* ptr)
+{
+    cdl* loc;
+    int pos;
+    printf("\nDeleting node\n");
+    printf("Which node do you wish to delete:  ");
+    scanf("%d",&pos);
+    while(ptr->next!=start)
+    {
+        //ptr=ptr->next;
+        if(ptr->data==pos)
+        {
+            ptr->prev->next=ptr->next;
+            ptr->next->prev=ptr->prev;
+            loc=ptr;
+            free(loc);
+        }
+        ptr=ptr->next;
+    }
+    getch();
+}
+
+
+void delete_end(cdl* ptr)
+{
+    printf("\nDeleting node at the end\n");
+    while(ptr->next!=start)
+    {
+        ptr=ptr->next;
+    }
+    ptr->prev->next=start;
+    start->prev=ptr->prev;
+    free(ptr);
+    getch();
+}
