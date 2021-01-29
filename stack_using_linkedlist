@@ -1,0 +1,144 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+typedef struct stack
+{
+    int x;
+    struct stack*next;
+}st;
+
+
+st*loc;
+st*head=NULL;
+
+
+static int element=0;
+
+st*create(st*);
+void push(st*);
+void pop(st*);
+void display(st*);
+
+
+int main()
+{
+    int choice;
+    do
+    {
+        system("cls");
+        printf("\n*****STACK*****\n");
+        printf("\n1.\tCreate Stack\n2.\tView Stack\n3.\tPush elements into the Stack\n4.\tPop elements from the Stack\n5.\tExit\n");
+        printf("\nEnter your choice: ");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:
+                printf("\nCreation of Stack\n");
+                head=create(head);
+                break;
+            case 2:
+                printf("\nView of Stack\n");
+                display(head);
+                break;
+            case 3:
+                printf("\nPushing into Stack\n");
+                push(head);
+                break;
+            case 4:
+                printf("Pop from Stack\n");
+                pop(head);
+                break;
+            case 5:
+                printf("\nExiting\n");
+                exit(0);
+            default:
+                printf("Please give the right choice\n");
+                break;
+        }
+    }while(choice!=9);
+    return 0;
+}
+
+
+st *create(st *ptr)
+{
+    st *newnode;
+    char ch='y';
+    int ele;
+    while(ch=='y')
+    {
+        newnode=(st*)malloc(sizeof(st));
+        printf("Enter the element: ");
+        scanf("%d",&ele);
+        if(head==NULL)
+        {
+
+            newnode->next=NULL;
+            head=newnode;
+            newnode->x=ele;
+        }
+        else
+        {
+            ptr=head;
+            while(ptr->next!=NULL)
+            {
+                ptr=ptr->next;
+            }
+            newnode->next=NULL;
+            ptr->next=newnode;
+            newnode->x=ele;
+        }
+        printf("\nDo you want to continue?(y/n): ");
+        scanf(" %c",&ch);
+    }
+    return head;
+}
+
+
+void display(st*ptr)
+{
+    while(ptr!=NULL)
+    {
+        printf("\t%d ->",ptr->x);
+        ptr=ptr->next;
+    }
+    getch();
+}
+
+
+void push(st*ptr)
+{
+    while(ptr->next!=NULL)
+    {
+        ptr=ptr->next;
+    }
+    st*newnode;
+    newnode=(st*)malloc(sizeof(st));
+    printf("Enter the element: ");
+    scanf("%d",&newnode->x);
+    ptr->next=newnode;
+    newnode->next=NULL;
+    getch();
+}
+
+void pop(st*ptr)
+{
+   loc=ptr->next;
+    if(ptr==NULL)
+    {
+        printf("\nUNDERFLOW!!\n");
+    }
+    else
+    {
+        while(loc->next!=NULL)
+        {
+            ptr=ptr->next;
+            loc=loc->next;
+        }
+        ptr->next=NULL;
+        printf("Popping out %d\n",loc->x);
+        free(loc);
+    }
+    getch();
+}
