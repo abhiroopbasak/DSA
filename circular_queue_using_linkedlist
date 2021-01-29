@@ -1,0 +1,137 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+
+typedef struct queue
+{
+int data;
+struct queue *next;
+}qu;
+
+
+qu *head = NULL;
+qu *newnode;
+char ch= 'y';
+int num;
+
+
+void create(qu *);
+void display(qu *);
+void enqueue(qu *);
+void dequeue(qu *);
+
+
+int main()
+{
+   int data;
+   int choice;
+   char ch='y';
+   while(ch=='y' || ch=='Y')
+   {
+        printf("\n\nQUEUE USING LINKEDLIST\n\n\n*****Main Menu*****\n");
+        printf("1.\tCreate\n2.\tDisplay\n3.\tEnqueue\n4.\tDequeue\n5.\tExit\n");
+        printf("\nEnter your choice: ");
+        scanf(" %d", &choice);
+        switch(choice)
+        {
+            case 1:create(head);
+                   break;
+            case 2:display(head);
+                   break;
+            case 3:enqueue(head);
+                   break;
+            case 4:dequeue(head);
+                   break;
+            default:printf("Please give correct choice");
+                    exit(0);
+                    break;
+        }
+        printf("\nDo you want to continue?: ");
+        scanf(" %c",&ch);
+        system("cls");
+   }
+   return 0;
+}
+
+
+void create(qu *ptr)
+{
+    printf("\nCreating Circular Queue\n");
+
+    while(ch=='y')
+    {
+        newnode=(qu*)malloc(sizeof(qu));
+        printf("Enter the data: ");
+        scanf("%d",&num);
+        if(head==NULL)
+        {
+            head=newnode;
+            //newnode->prev=start;
+            newnode->next=head;
+            newnode->data=num;
+        }
+        else
+        {
+            ptr=head;
+            while(ptr->next!=head)
+            {
+                ptr=ptr->next;
+            }
+            newnode->next=head;
+            //newnode->prev=ptr;
+            ptr->next=newnode;
+            newnode->data=num;
+            //start->prev=newnode;
+        }
+        printf("Do you want to continue?(y/n): ");
+        scanf(" %c",&ch);
+    }
+}
+
+
+
+void display(qu *ptr)
+{
+    printf("\nDisplaying Queue\n");
+    while(ptr->next!=head)
+    {
+        printf("\t%d ->",ptr->data);
+        ptr=ptr->next;
+    }
+    printf("\t%d ->",ptr->data);
+    getch();
+}
+
+
+
+void enqueue(qu* ptr)
+{
+    printf("\nEnqueue\n");
+    while(ptr->next!=head)
+    {
+        ptr=ptr->next;
+    }
+    newnode=(qu*)malloc(sizeof(qu));
+    printf("\nEnter the element to enqueue: ");
+    scanf("%d",&newnode->data);
+    ptr->next=newnode;
+    newnode->next=head;
+}
+
+
+
+
+void dequeue(qu* ptr)
+{
+    qu* loc;
+    printf("\nDequeue\n");
+    while(ptr->next!=head)
+    {
+        ptr=ptr->next;
+    }
+    ptr->next=head->next;
+    loc=head;
+    free(loc);
+    head=ptr->next;
+}
