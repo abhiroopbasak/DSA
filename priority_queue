@@ -1,0 +1,117 @@
+# include<stdio.h>
+# include<malloc.h>
+
+
+typedef struct node
+{
+    int priority;
+    int info;
+    struct node *link;
+}pro;
+
+
+void enqueue();
+void dequeue();
+void display();
+
+
+pro *front = NULL;
+pro *tmp,*q;
+
+
+int priority,ch,item;
+
+
+int main()
+{
+    do
+    {
+        printf("\n\n****PRIORITY QUEUE****\n\n");
+        printf("1.\tEnqueue\n");
+        printf("2.\tDequeue\n");
+        printf("3.\tDisplay\n");
+        printf("4.\tExit\n");
+        printf("Enter your choice : ");
+        scanf(" %d", &ch);
+        switch(ch)
+        {
+            case 1: enqueue();
+                    break;
+            case 2: dequeue();
+                    break;
+            case 3:display();
+                    break;
+            case 4:break;
+        default : printf("Wrong choice\n");
+        }
+        system("cls");
+    }while(ch!=4);
+
+    return 0;
+}
+
+
+
+
+void enqueue()
+{
+    printf("\nData : ");
+    scanf("%d", &item);
+    printf("\nPriority : ");
+    scanf("%d", &priority);
+    tmp = (pro *)malloc(sizeof(pro));
+    tmp->info = item;
+    tmp->priority = priority;
+    if( front == NULL || priority < front->priority )
+    {
+        tmp->link = front;
+        front = tmp;
+    }
+    else
+    {
+        q = front;
+        while( q->link != NULL && q->link->priority <= priority )
+            q=q->link;
+        tmp->link = q->link;
+        q->link = tmp;
+    }
+}
+
+
+
+
+void dequeue()
+{
+    if(front == NULL)
+       printf("Queue Underflow\n");
+    else
+    {
+        tmp = front;
+        printf("Deleted item is %d\n",tmp->info);
+        front = front->link;
+        free(tmp);
+    }
+    getch();
+}
+
+
+
+
+void display()
+{
+    pro *ptr;
+    ptr = front;
+    if(front == NULL)
+        printf("Queue is empty\n");
+    else
+    {
+        printf("\n Queue :\n\n");
+        printf("Priority \t Item\n");
+        while(ptr != NULL)
+        {
+            printf("%5d\t\t%5d\n",ptr->priority,ptr->info);
+            ptr = ptr->link;
+        }
+    }
+    getch();
+}
