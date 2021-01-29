@@ -1,0 +1,110 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int front = -1;
+int rear = -1;
+int * a;
+int n;
+
+void create(int *);
+void enqueue(int *, int);
+void dequeue(int *);
+void display(int *);
+
+
+int main()
+{
+   int data;
+   int choice;
+   printf("Enter the maximum size of the array:");
+   scanf("%d",&n);
+   a=(int *)malloc(n*sizeof(int));
+   char ch='y';
+   while(ch=='y' || ch=='Y')
+   {
+        printf("\n\nQUEUE USING ARRAY\n\n\n*****Main Menu*****\n");
+        printf("1.\tCreate\n2.\tDisplay\n3.\tEnqueue\n4.\tDequeue\n5.\tExit\n");
+        printf("\nEnter your choice: ");
+        scanf(" %d", &choice);
+        switch(choice)
+        {
+            case 1:printf("\nCreating Queue\n");
+                   create(a);
+                   break;
+            case 2:printf("\nDisplay the queue\n");
+                   display(a);
+                   break;
+            case 3:printf("\nEnqueue\n");
+                   printf("\nEnter the element to enqueue: ");
+                   scanf("%d",&data);
+                   enqueue(a,data);
+                   break;
+            case 4:printf("\nDequeue\n");
+                   dequeue(a);
+                   break;
+            default:printf("Please give correct choice");
+                    exit(0);
+                    break;
+        }
+        printf("\nDo you want to continue?: ");
+        scanf(" %c",&ch);
+        system("cls");
+   }
+   return 0;
+}
+void create(int *t)
+{
+    int i;
+    printf("\n Enter the no. of elements to be inserted:");
+    scanf("%d", &rear);
+    for(i=0; i<rear; i++)
+    {
+        printf("\nEnter the %d th element:", i);
+        scanf("%d", t);
+        t++;
+    }
+    front = front +1;
+}
+void enqueue(int *t, int d)
+{
+    int i;
+    if(front==(n))
+    {
+        printf("Overflow!");
+    }
+    else
+    {
+        for(i=0;i<rear;i++)
+        {
+            t++;
+        }
+        *(t)=d;
+        rear=rear+1;
+    }
+
+}
+void dequeue(int *t)
+{
+    int element;
+    if(front==-1)
+    {
+        printf("Underflow!!!");
+        return;
+    }
+    else
+    {
+        element=*(t);
+        *(t)=0;
+        front=front+1;
+    }
+}
+void display(int *t)
+{
+    int i;
+    printf("\n The elements in Queue are: \t");
+    for(i=front;i<rear;i++)
+    {
+        printf("%d->", *(t+i));
+    }
+}
