@@ -1,0 +1,115 @@
+/*Stack Implementation using Array*/
+#include <stdio.h>
+#include <stdlib.h>
+#define size 100
+
+
+int top=-1;
+static int f=0;
+int a[size];
+
+
+void create(int*);
+void display(int*);
+void push(int*);
+void pop(int*);
+
+
+int main()
+{
+    int choice;
+    do
+    {
+        system("cls");
+        printf("\n*************STACK USING ARRAY*************\n");
+        printf("\n1.\tCreate a stack\n2.\tView the stack\n3.\tPush elements into Stack\n4.\tPop elements from Stack\n5.\tExit\n");
+        printf("\nEnter your choice: ");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:
+                printf("\nCreation of Stack\n");
+                create(a);
+                break;
+            case 2:
+                printf("\nView of Stack\n");
+                display(a);
+                break;
+            case 3:
+                printf("\nPushing into Stack\n");
+                push(a);
+                break;
+            case 4:
+                printf("Pop from Stack\n");
+                pop(a);
+                break;
+            case 5:
+                printf("\nExiting\n");
+                exit(0);
+            default:
+                printf("Please give the right choice\n");
+                break;
+        }
+    }while(choice!=5);
+    return 0;
+}
+
+
+void create(int*t)
+{
+
+    int n;
+    printf("\nEnter the number of elements you want to insert: ");
+    scanf("%d",&n);
+    f=0;
+    for(int i=0;i<n;i++)
+    {
+        printf("\nElement number %d: ",i+1);
+        scanf("%d",(t+i));
+        f++;
+    }
+    printf("\nStack Created Successfully!!\n");
+    getch();
+}
+
+
+void display(int*t)
+{
+    printf("\nDisplaying elements of the stack\n");
+    if(f==0)
+    {
+        printf("UNDERFLOW!!");
+        exit(0);
+    }
+    for(int i=0;i<f;i++)
+    {
+        printf("%d   ",*(t+i));
+    }
+    getch();
+}
+
+
+void push(int*t)
+{
+    int n;
+    printf("\nPushing elements into the stack\n");
+    printf("\nEnter the element: ");
+    scanf("%d",&n);
+    t[f]=n;
+    f++;
+    getch();
+}
+
+void pop(int*t)
+{
+    printf("\nPopping elements from the stack\n");
+    if(f==0)
+    {
+        printf("UNDERFLOW!!\n");
+        exit(0);
+    }
+    printf("Popping out %d",t[f-1]);
+    t[f-1]=NULL;
+    f--;
+    getch();
+}
