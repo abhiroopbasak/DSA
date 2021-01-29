@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct queue
+{
+    int x;
+    struct queue*next;
+}qu;
+
+
+qu *loc;
+qu *head=NULL;
+
+
+//static int element=0;
+
+void create(qu*);
+void enqueue(qu*,int);
+void dequeue(qu*);
+void display(qu*);
+
+
+int main()
+{
+    int data;
+   int choice;
+   char ch='y';
+   while(ch=='y' || ch=='Y')
+   {
+        printf("\n\nQUEUE USING LINKEDLIST\n\n\n*****Main Menu*****\n");
+        printf("1.\tCreate\n2.\tDisplay\n3.\tEnqueue\n4.\tDequeue\n5.\tExit\n");
+        printf("\nEnter your choice: ");
+        scanf(" %d", &choice);
+        switch(choice)
+        {
+            case 1:head=(qu*)malloc(sizeof(qu));
+                    //head->next=NULL;
+                    create(head);
+                   break;
+            case 2:printf("\nDisplay the queue\n");
+                   display(head);
+                   break;
+            case 3:printf("\nEnqueue\n");
+                   printf("\nEnter the element to enqueue: ");
+                   scanf("%d",&data);
+                   enqueue(head,data);
+                   break;
+            case 4:printf("\nDequeue\n");
+                   dequeue(head);
+                   break;
+            default:printf("Please give correct choice");
+                    exit(0);
+                    break;
+        }
+        printf("\nDo you want to continue?: ");
+        scanf(" %c",&ch);
+        system("cls");
+   }
+   return 0;
+}
+
+
+void create(qu *ptr)
+{
+    char ch='y';
+    printf("\nCreating node of queue\n");
+    printf("\nEnter number: ");
+    scanf("%d",&ptr->x);
+    ptr->next=NULL;
+    printf("\nDo you want to continue?");
+    scanf(" %c",&ch);
+    if(ch=='y')
+    {
+        ptr->next=(qu*)malloc(sizeof(qu));
+        ptr=ptr->next;
+        create(ptr);
+    }
+}
+
+
+void display(qu*ptr)
+{
+    printf("Displaying the queue\n");
+    while(ptr!=NULL)
+    {
+        printf("%d -> ",ptr->x);
+        ptr=ptr->next;
+    }
+}
+
+
+void enqueue(qu *ptr, int a)
+{
+    qu *new1;
+    new1=(qu*)malloc(sizeof(qu));
+    new1->x=a;
+    while(ptr->next!=NULL)
+        ptr=ptr->next;
+    ptr->next=new1;
+    new1->next=NULL;
+}
+
+
+void dequeue(qu*ptr)
+{
+    qu*loc;
+    if(ptr==NULL)
+    {
+        printf("\nUnderflow");
+        getch();
+    }
+    else
+    {
+        head=ptr->next;
+        loc=ptr;
+        free(loc);
+    }
+}
