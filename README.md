@@ -1,6 +1,6 @@
 # Data Structure and Algorithm
 
-##Based on C programming language
+## Based on C programming language
 
 ![DSA](dsa.png)
 
